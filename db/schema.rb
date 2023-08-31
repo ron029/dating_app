@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_27_043009) do
+ActiveRecord::Schema.define(version: 2023_08_29_053739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,12 +34,12 @@ ActiveRecord::Schema.define(version: 2023_08_27_043009) do
   end
 
   create_table "matches", force: :cascade do |t|
-    t.bigint "liking_user_id"
-    t.bigint "liked_user_id"
+    t.bigint "user1_id"
+    t.bigint "user2_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["liked_user_id"], name: "index_matches_on_liked_user_id"
-    t.index ["liking_user_id"], name: "index_matches_on_liking_user_id"
+    t.index ["user1_id"], name: "index_matches_on_user1_id"
+    t.index ["user2_id"], name: "index_matches_on_user2_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -59,9 +59,14 @@ ActiveRecord::Schema.define(version: 2023_08_27_043009) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "sexual_orientation"
+    t.string "gender_interest"
     t.index ["gender"], name: "index_users_on_gender"
   end
 
-  add_foreign_key "matches", "users", column: "liked_user_id"
-  add_foreign_key "matches", "users", column: "liking_user_id"
+  add_foreign_key "dislikes", "users", column: "disliked_user_id"
+  add_foreign_key "dislikes", "users", column: "disliking_user_id"
+  add_foreign_key "likes", "users", column: "liked_user_id"
+  add_foreign_key "likes", "users", column: "liking_user_id"
+  add_foreign_key "matches", "users", column: "user1_id"
+  add_foreign_key "matches", "users", column: "user2_id"
 end

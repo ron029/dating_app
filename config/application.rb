@@ -30,14 +30,14 @@ module Backend
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
+    config.eager_load_paths << Rails.root.join("lib")
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins 'http://localhost:8080'  # You can set specific domains instead of '*' if needed
         resource '*',
         headers: :any,
-        methods: [:get, :post, :put, :patch, :delete, :options, :head]
+        methods: [:get, :post, :put, :patch, :delete, :options, :head], credentials: true
       end
     end
     # Don't generate system test files.

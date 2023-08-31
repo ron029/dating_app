@@ -18,20 +18,37 @@ class Api::V1::GraphqlController < ApplicationController
     render json: result
   rescue => e
     raise e unless Rails.env.development?
+
     handle_error_in_development e
   end
 
   private
 
   def current_user
+    authorization_header = request.headers['Authorization']
+
+    return session_user unless authorization_header.present?
+
+    token = authorization_header.split(' ').last
+    begin
+      decoded_token = JsonWebToken.decode(token)
+      user_id = decoded_token['user_id']
+      User.find_by(id: user_id)
+    rescue JWT::DecodeError, JWT::ExpiredSignature
+      nil
+    end
+  end
+
+  def session_user
     return unless session[:token]
 
-    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.credentials.secret_key_base.byteslice(0..31))
-    token = crypt.decrypt_and_verify session[:token]
-    user_id = token.gsub('user-id:', '').to_i
-    User.find user_id
-  rescue ActiveSupport::MessageVerifier::InvalidSignature
-    nil
+    begin
+      decoded_token = JsonWebToken.decode(session[:token])
+      user_id = decoded_token['user_id']
+      User.find_by(id: user_id)
+    rescue JWT::DecodeError, JWT::ExpiredSignature
+      nil
+    end
   end
 
   # Handle variables in form data, JSON body, or a blank value

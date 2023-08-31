@@ -43,3 +43,8 @@ gem 'faker'
 gem 'rack-cors', require: 'rack/cors'
 gem 'hirb'
 gem 'validates_timeliness'
+gem 'pry-rails', group: :development
+gem 'jwt'
+gem 'figaro'
+gem 'rspec-rails'
+gem 'factory_bot_rails'

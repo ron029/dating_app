@@ -5,25 +5,25 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-30.times do
-    User.create(
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
-      mobile_number: Faker::PhoneNumber.phone_number,
-      email: Faker::Internet.email,
-      birthdate: Faker::Date.between(from: 40.years.ago, to: 18.years.ago),
-      gender: ['male','female'].sample,
-      sexual_orientation: ['male','female'].sample,
-      country: Faker::Address.country,
-      state_region: Faker::Address.state,
-      city: Faker::Address.city,
-      school: Faker::University.name,
-      bio: Faker::Lorem.paragraph,
-      admin: 0, # For regular users
-      password: 'password', # You might want to hash passwords in a real scenario
-      password_confirmation: 'password'
-    )
-  end
+# 30.times do
+#     User.create(
+#       first_name: Faker::Name.first_name,
+#       last_name: Faker::Name.last_name,
+#       mobile_number: Faker::PhoneNumber.phone_number,
+#       email: Faker::Internet.email,
+#       birthdate: Faker::Date.between(from: 40.years.ago, to: 18.years.ago),
+#       gender: ['male','female'].sample,
+#       sexual_orientation: ['male','female'].sample,
+#       country: Faker::Address.country,
+#       state_region: Faker::Address.state,
+#       city: Faker::Address.city,
+#       school: Faker::University.name,
+#       bio: Faker::Lorem.paragraph,
+#       admin: 0, # For regular users
+#       password: 'password', # You might want to hash passwords in a real scenario
+#       password_confirmation: 'password'
+#     )
+#   end
 
   # Create some likes and dislikes
   # User.all.each do |user|
@@ -39,7 +39,7 @@
   
 
 # User.all.each do |user|
-#   user.update(sexual_orientation: user.gender)
+#   user.update(gender_interest: user.gender == 'male' ? 'female' : 'male')
 # end
 
 # Like.all.each do |like|

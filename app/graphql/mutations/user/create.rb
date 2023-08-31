@@ -2,10 +2,12 @@
 
 module Mutations
   module User
-    class CreateUser < Mutations::BaseMutation
+    class Create < BaseMutation
+      graphql_name 'CreateUser'
       # often we will need input types for specific mutation
       # in those cases we can define those input types in the mutation class itself
       class AuthProviderSignupData < Types::BaseInputObject
+        graphql_name 'CreateUser'
         argument :credentials, Types::AuthProviderCredentialsInput, required: false
       end
 
@@ -15,6 +17,7 @@ module Mutations
       argument :birthdate, GraphQL::Types::ISO8601Date, required: true
       argument :gender, String, required: true
       argument :sexual_orientation, String, required: true
+      argument :gender_interest, String, required: true
       argument :country, String, required: true
       argument :state_region, String, required: true
       argument :city, String, required: true
@@ -22,20 +25,15 @@ module Mutations
       argument :bio, String, required: false
       argument :auth_provider, AuthProviderSignupData, required: true
 
-      type Types::Models::UserType
+      field :errors, [String], null: true
+      field :user, Types::Models::UserType, null: true
 
-      def resolve(options)
-        options = {
-          first_name: options[:first_name], last_name: options[:last_name], mobile_number: options[:mobile_number],
-          birthdate: options[:birthdate], gender: options[:gender], sexual_orientation: options[:sexual_orientation],
-          country: options[:country], state_region: options[:state_region], city: options[:city],
-          school: options[:school], bio: options[:bio], email: options[:auth_provider]&.[](:credentials)&.[](:email),
-          password: options[:auth_provider]&.[](:credentials)&.[](:password),
-          password_confirmation: options[:auth_provider]&.[](:credentials)&.[](:password_confirmation)
+      def resolve(params)
+        user = Users::Persistence.new(current_user).create(params)
+        {
+          errors: user.errors.full_messages,
+          user: user
         }
-        User.create!(options)
-      rescue ActiveRecord::RecordInvalid => e
-        GraphQL::ExecutionError.new("Invalid input: #{e.record.errors.full_messages.join(', ')}")
       end
     end
   end
