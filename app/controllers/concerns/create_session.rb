@@ -11,6 +11,8 @@ module CreateSession
       return nil
     end
   end
+end
+
   # def jwt_session_create(user_id)
   #   user = User.find_by(id: user_id)
   #   session = user.sessions.build
@@ -21,4 +23,3 @@ module CreateSession
   #     return nil
   #   end
   # end
-end
