@@ -11,6 +11,9 @@ module Types
     field :dislikes, resolver: Queries::Dislikes
     field :dislike_given_count, resolver: Queries::DislikeGivenCount
     field :dislike_receive_count, resolver: Queries::DislikeReceiveCount
+    field :matches, resolver: Queries::Matches
+    field :matches_user, resolver: Queries::MatchesUser
+    field :logout, resolver: Queries::Logout
     # TODO: remove me
     field :test_field, String, null: false, description: 'An example field added by the generator'
     def test_field

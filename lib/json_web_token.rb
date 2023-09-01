@@ -2,7 +2,7 @@ class JsonWebToken
   require 'jwt'
   require 'active_support/core_ext/numeric/time'
 
-  SECRET_KEY = 'asdf.@#4ASDFasdfsdu213412412342!@#'.freeze
+  SECRET_KEY = 'H@rdToGuess!@#$%^&*()_+'.freeze
   JWT_EXPIRY = 1.day
 
   def self.encode(payload, exp = JWT_EXPIRY.from_now)

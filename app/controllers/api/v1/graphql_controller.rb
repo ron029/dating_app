@@ -26,24 +26,22 @@ class Api::V1::GraphqlController < ApplicationController
 
   def current_user
     authorization_header = request.headers['Authorization']
-
     return session_user unless authorization_header.present?
 
     token = authorization_header.split(' ').last
-    begin
-      decoded_token = JsonWebToken.decode(token)
-      user_id = decoded_token['user_id']
-      User.find_by(id: user_id)
-    rescue JWT::DecodeError, JWT::ExpiredSignature
-      nil
-    end
+    decrypt_token(token)
   end
 
   def session_user
     return unless session[:token]
 
+    token = session[:token]
+    decrypt_token(token)
+  end
+
+  def decrypt_token(token)
     begin
-      decoded_token = JsonWebToken.decode(session[:token])
+      decoded_token = JsonWebToken.decode(token)
       user_id = decoded_token['user_id']
       User.find_by(id: user_id)
     rescue JWT::DecodeError, JWT::ExpiredSignature
