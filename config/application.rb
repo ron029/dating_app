@@ -34,7 +34,7 @@ module Backend
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'http://localhost:8080'  # You can set specific domains instead of '*' if needed
+        origins 'https://dating-app-frontend-mu.vercel.app/'  # You can set specific domains instead of '*' if needed
         resource '*',
         headers: :any,
         methods: [:get, :post, :put, :patch, :delete, :options, :head], credentials: true
