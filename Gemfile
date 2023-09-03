@@ -39,16 +39,18 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'graphql', '1.11.6'
-# , group: :development
 gem 'faker'
 gem 'rack-cors', require: 'rack/cors'
 gem 'hirb'
 gem 'validates_timeliness'
 gem 'pry-rails', group: :development
 gem 'jwt'
+gem 'sprockets', '~> 3.7.2'
 gem 'figaro'
 gem 'rspec-rails'
 gem 'factory_bot_rails'
 gem 'uglifier'
 gem 'coffee-rails'
-gem 'sprockets', '~> 3.7.2'
+gem "shrine-cloudinary"
+gem 'shrine'
+gem 'image_processing'
